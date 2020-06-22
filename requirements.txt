@@ -1,2 +1,2 @@
-jupyter==6.0.3
+jupyter
 tensorflow-gpu==2.0.0
