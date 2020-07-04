@@ -1,7 +1,9 @@
 jupyter
 pillow
 imutils
-tensorflow==2.1.1
+tensorflow
+tensorflow-transform
+tensorflow-datasets
 scikit-learn==0.21.3
 pandas==0.25.1
 matplotlib==3.1.1

@@ -1,7 +1,7 @@
 # ML_Projects (Windows 10, python 3.7.4)
 1. Clone repo: git clone https://github.com/CalvinTai0402/ML_Projects.git
-2. Create a virtual environment: # py -m venv env # .\env\Scripts\activate OR # py -m venv envCPU # .\envCPU\Scripts\activate
-3. Install dependencies: pip install -r requirementsGPU.txt (for GPU) or pip install -r requirementsCPU.txt (for CPU)
+2. Create a virtual environment: # py -m venv envGPU # .\envGPU\Scripts\activate OR # py -m venv envCPU # .\envCPU\Scripts\activate
+3. Install dependencies: pip --no-cache-dir install -r requirementsGPU.txt (for GPU) or pip --no-cache-dir install -r requirementsCPU.txt (for CPU)
 
 
 * How to upload big files to github: https://medium.com/@AyunasCode/how-to-push-large-files-to-github-253d05cc6a09, 
