@@ -1,0 +1,78 @@
+================================================================================
+To install CUDA (10.1) and Nvidia driver:
+# sudo rm /etc/apt/sources.list.d/cuda*
+# sudo apt remove --autoremove nvidia-cuda-toolkit
+# sudo apt remove --autoremove nvidia-*
+# sudo apt update
+# sudo add-apt-repository ppa:graphics-drivers
+# sudo apt-key adv --fetch-keys  http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+# sudo bash -c 'echo "deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list'
+# sudo bash -c 'echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda_learn.list'
+# sudo apt update
+# sudo apt install cuda-10-1
+# sudo apt install libcudnn7
+# sudo vim ~/.profile
+	# And add the following lines at the end of the file:
+		# set PATH for cuda 10.1 installation
+		if [ -d "/usr/local/cuda-10.1/bin/" ]; then
+			export PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}}
+			export LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+		fi
+# sudo reboot now
+
+Verify installation of Nvidia driver:
+# nvidia-smi
+Verify installation of CUDA:
+# nvcc --version
+Verify libcudnn:
+# /sbin/ldconfig -N -v $(sed ‘s/:/ /’ <<< $LD_LIBRARY_PATH) 2>/dev/null | grep libcudnn
+
+================================================================================
+To install cuDNN (7.6.5):
+1. Go to https://developer.nvidia.com/rdp/cudnn-archive -> Download cuDNN v7.6.5 (November 5th, 2019), for CUDA 10.1 -> cuDNN Library for Linux
+2. Go to the directory where the .tar file is downloaded and extract all the files
+3. Run the following commands:
+# sudo cp cuda/include/cudnn*.h /usr/local/cuda/include
+# sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
+# sudo chmod a+r /usr/local/cuda/include/cudnn*.h /usr/local/cuda/lib64/libcudnn*
+
+Verify installation of cuDNN:
+# cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2
+Output (You should see something similar):
+#define CUDNN_MAJOR 7
+#define CUDNN_MINOR 6
+#define CUDNN_PATCHLEVEL 5
+--
+#define CUDNN_VERSION (CUDNN_MAJOR * 1000 + CUDNN_MINOR * 100 + CUDNN_PATCHLEVEL)
+
+#include "driver_types.h"
+
+
+================================================================================
+To install Tensorflow:
+1. Install anaconda from here: https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh
+2. cd into where the .sh file is downloaded and run # sudo sh Anaconda3-5.2.0-Linux-x86_64.sh
+3. Go through the prompts. Make sure to say yes to adding anaconda to $PATH
+4. Open a new terminal and execute # conda create -n tf-gpu python=3.6
+5. # source activate tf-gpu
+6. # conda install tensorflow-gpu=2.2.0 cudatoolkit=10.1.243 cudnn=7.6.5=cuda10.1_0 h5py jupyter
+
+Verify installation of Tensorflow:
+1. Open a new terminal and run # jupyter notebook
+2. Open a new notebook
+3. Copy and paste the following lines:
+import tensorflow as tf
+from tensorflow import keras
+gpus= tf.config.experimental.list_physical_devices('GPU')
+print(gpus)
+print(tf.test.is_gpu_available())
+print(tf.test.is_built_with_cuda())
+4. You should see "True" for the last two lines of output
+
+
+
+
+Resources: 
+1. Tf, CUDA, cuDNN compatibility: https://www.tensorflow.org/install/source#setup_for_linux_and_macos
+2. https://medium.com/@redowan/no-bullshit-guide-on-installing-tensorflow-gpu-ubuntu-18-04-18-10-238924cc4a6a
+3. https://medium.com/@exesse/cuda-10-1-installation-on-ubuntu-18-04-lts-d04f89287130
