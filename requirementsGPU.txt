@@ -6,4 +6,4 @@ scikit-learn==0.21.3
 pandas==0.25.1
 matplotlib==3.1.1
 opencv-python==4.2.0.34
-setuptools==41.0.0
+setuptools==65.5.1
